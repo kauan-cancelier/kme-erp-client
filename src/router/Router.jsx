@@ -3,7 +3,6 @@ import Login from "../views/pages/login/Login"
 import Layout from "../views/components/layouts/LayoutRouter"
 import LayoutBeforeLogin from "../views/components/layouts/LayoutBeforeLogin"
 
-import NewUser from "../views/pages/user/NewUser"
 import Home from "../views/pages/home/Home"
 import HomeBrand from "../views/pages/brands/Index"
 import NewBrand from "../views/pages/brands/New"
@@ -13,12 +12,12 @@ import CategoryIndex from "../views/pages/categories/Index"
 import CategoryNew from "../views/pages/categories/New"
 import CategoryShow from "../views/pages/categories/Show"
 import CategoryEdit from "../views/pages/categories/Edit"
+import NewUser from "../views/pages/user/New"
 
 
 function ContentRouter() {
     const BRAND_ENPOINT = "/brands"
     const CATEGORY_ENPOINT = "/categories"
-
 
     return (
         <BrowserRouter>
