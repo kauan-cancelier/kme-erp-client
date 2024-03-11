@@ -1,39 +1,16 @@
 import React from 'react'
 import ShowActionsButton from '../ShowActionsButton'
+import ErrorMessage from '../ErrorMessage'
 
-function ShowPage({ title, obj = {}, errorMessage = '', deleteAction, editAction }) {
-
-    if (!obj || Object.keys(obj).length === 0) {
-        return (
-            <p>
-                {errorMessage || 'Não há informações disponíveis.'}
-            </p>
-        )
-    }
-
-    const firstLetterUpper = (key) => {
-        return key.charAt(0).toUpperCase() + key.slice(1)
-    }
-
-    const renderDetails = (key) => {
-        return (
-            <div style={{ marginBottom: 10 }} key={key}>
-                <strong>
-                    {firstLetterUpper(key)}:
-                </strong>
-                {` ${obj[key]}`}
-            </div>
-        )
-    }
-
-    const details = Object.keys(obj).map((key) => (
-        renderDetails(key)
-    ))
+function ShowPage({ title, errorMessage = '', deleteAction, editAction, children }) {
 
     return (
         <>
+            {errorMessage ? <ErrorMessage message={errorMessage}/> : ''}
             <h1>{title}</h1>
-            {details}
+            <div style={{ marginBottom: 10 }}>
+                {children}
+            </div>
             <ShowActionsButton
                 deleteAction={deleteAction}
                 editAction={editAction}

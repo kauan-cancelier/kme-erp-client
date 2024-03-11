@@ -3,9 +3,9 @@ import api from './Api'
 const ENDPOINT = '/brands'
 
 export default class BrandService {
-  constructor({navigate, setErrorMessage = ''}) {
-    this.navigate = navigate
-    this.setErrorMessage = setErrorMessage
+  constructor({navigate, setErrorMessage = () => {}}) {
+    this.navigate = navigate;
+    this.setErrorMessage = setErrorMessage;
   }
 
   insert(brand) {
@@ -61,8 +61,13 @@ export default class BrandService {
 }
 
 function showError(error, setErrorMessage) {
+  console.log(error)
   if (error.response && error.response.data) {
-    return setErrorMessage(error.response.data)
+      const errors = error.response.data.errors
+      if (errors) {
+          return setErrorMessage(errors[0])
+      }
+
   }
   return setErrorMessage('Servidor indisponível.')
 }

@@ -12,7 +12,7 @@ function NameFilter({ onFilter }) {
 
     return (
         <>
-            <Button onClick={() => setModalState(true)} primary size="small">Filtro</Button>
+            <Button onClick={() => setModalState(true)} size="small">Filtro</Button>
             <Modal
                 size={"small"}
                 open={modalState}

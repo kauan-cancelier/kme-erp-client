@@ -1,8 +1,7 @@
 import React from 'react'
-import { Form, FormInput, Message } from 'semantic-ui-react'
-import PrimaryButton from '../../components/PrimaryButton'
+import { Button, Form, FormInput, Message } from 'semantic-ui-react'
 
-function GenericForm({ data, setData, onClick, errorMessage, title, buttonLabel='Salvar' }) {
+function GenericForm({ data, setData, onClick, errorMessage='', title, buttonLabel='Salvar' }) {
 
     const handleInputChange = (event, { name, value }) => {
         setData(prevData => ({ ...prevData, [name]: value }))
@@ -25,13 +24,13 @@ function GenericForm({ data, setData, onClick, errorMessage, title, buttonLabel=
 
     return (
         <>
-            {errorMessage && <Message color='red'>{errorMessage}</Message>}
             {errorMessage && console.log(errorMessage)}
+            {errorMessage && <Message color='red'>{errorMessage}</Message>}
 
             {title ? <h1>Cadastro de {title}</h1> : ''}
             <Form>
                 {formFields}
-                <PrimaryButton label={buttonLabel} onClick={onClick} />
+                <Button label={buttonLabel} onClick={onClick} />
             </Form>
         </>
     )

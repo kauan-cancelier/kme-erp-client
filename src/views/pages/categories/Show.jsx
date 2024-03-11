@@ -29,12 +29,10 @@ function CategoryShow() {
 
     return (
         <>
-            <ShowPage
-                title='Categoria'
-                obj={category}
-                deleteAction={remove}
-                editAction={navigateToEdit}
-            />
+            <ShowPage title='Categoria' obj={category} deleteAction={remove} editAction={navigateToEdit}>
+                {category.name && <p>Nome: {category.name}</p>}
+                {category.description && <p>Descrição: {category.description}</p>}
+            </ShowPage>
         </>
     )
 }

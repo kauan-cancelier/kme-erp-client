@@ -1,0 +1,15 @@
+.section.home {
+    background-color: rgb(246, 246, 246);
+    display: flex;
+    flex: 1;
+    height: 100vh;
+    margin: 0;
+}
+
+.section.middle {
+    display: flex;
+    flex: 1;
+    height: 100vh;
+    background-color: black;
+}
+

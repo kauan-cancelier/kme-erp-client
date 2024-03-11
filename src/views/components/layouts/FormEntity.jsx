@@ -1,9 +1,13 @@
-import GenericForm from '../../components/layouts/Form'
+import GenericForm from './Form'
 
-function NewPageEntity({service, errorMessage = '', title, state, setState}) {
+function FormEntity({service, errorMessage = '', title, state, setState, editMode = false}) {
 
     const save = async () => {
         service.insert(state)
+    }
+
+    const edit = async () => {
+        service.edit(state)
     }
 
     return (
@@ -11,7 +15,7 @@ function NewPageEntity({service, errorMessage = '', title, state, setState}) {
             <GenericForm
                 data={state}
                 setData={setState}
-                onClick={save}
+                onClick={editMode ? edit : save}
                 errorMessage={errorMessage}
                 title={title}
             />
@@ -19,4 +23,4 @@ function NewPageEntity({service, errorMessage = '', title, state, setState}) {
     )
 }
 
-export default NewPageEntity
+export default FormEntity

@@ -1,7 +1,7 @@
 import api from "./Api"
 const ENDPOINT = '/login'
 
-export default class {
+export default class LoginService {
 
     constructor({navigate, setErrorMessage = ''}) {
         this.navigate = navigate
@@ -9,7 +9,7 @@ export default class {
     }
 
     login(credentials) {
-        api.post(ENDPOINT, {
+        api.post(`${ENDPOINT}`, {
             email: credentials.email,
             password: credentials.password,
         })
@@ -26,9 +26,13 @@ export default class {
 }
 
 function showError(error, setErrorMessage) {
-    if (error.response && error.response.data) {
-        return setErrorMessage(error.response.data.error)
-    }
     console.log(error)
+    if (error.response && error.response.data) {
+        const errors = error.response.data.errors
+        if (errors) {
+            return setErrorMessage(errors[0])
+        }
+
+    }
     return setErrorMessage('Servidor indisponível.')
 }

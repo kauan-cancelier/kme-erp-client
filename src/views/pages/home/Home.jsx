@@ -1,13 +1,18 @@
-import { Component } from "react";
-import { useLocation } from "react-router-dom";
-import { Message } from "semantic-ui-react";
+import './home.css'
+import Navbar from "../../components/navbar/default/Navbar";
+import CustomContainer from '../../components/layouts/Container';
+import Footer from '../../components/footer/Footer';
 
 function Home() {
-    const location = useLocation();
-    const { message } = location.state || {}
     return (
         <>
-            {message ? <div><Message success>{message}</Message></div> : ''}
+            <Navbar />
+            <section className="section home">
+                <CustomContainer>
+                    <h1>Ultimas atualizações</h1>
+                </CustomContainer>
+            </section>
+            <Footer/>
         </>
     )
 }

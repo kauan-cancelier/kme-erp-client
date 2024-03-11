@@ -1,26 +1,20 @@
 import React from "react"
 import { Table, TableBody, TableCell, TableHeader, TableHeaderCell, TableRow } from "semantic-ui-react"
 
-function CustomTable({ data = [], link }) {
+function CustomTable({ headers = [], data = [], link }) {
 
     const renderTableHeaders = () => {
-        if (data && data.length > 0) {
-            const firstItem = data[0]
-            const headerKeys = Object.keys(firstItem)
-
-            return (
-                <TableHeader>
-                    <TableRow>
-                        {headerKeys.map(key => (
-                            <TableHeaderCell key={key}>
-                                {key === 'id' ? 'Id' : key}
-                            </TableHeaderCell>
-                        ))}
-                    </TableRow>
-                </TableHeader>
-            )
-        }
-        return null;
+        return (
+            <TableHeader>
+                <TableRow>
+                    {headers.map((header, idx) => ( // Correção aqui
+                        <TableHeaderCell key={idx}>
+                            {header}
+                        </TableHeaderCell>
+                    ))}
+                </TableRow>
+            </TableHeader>
+        )
     }
 
     const renderTableRows = () => {
@@ -37,9 +31,9 @@ function CustomTable({ data = [], link }) {
                         </TableCell>
                     ))}
                 </TableRow>
-            ));
+            ))
         }
-        return null;
+        return null
     }
 
     return (

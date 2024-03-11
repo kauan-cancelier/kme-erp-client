@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useMemo } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import CategoryService from '../../../service/CategoryService'
-import GenericForm from '../../components/layouts/Form'
+import React, { useState } from 'react'
+import { useParams } from 'react-router-dom'
+import CategoryForm from '../../components/form/CategoryForm'
 
 function CategoryEdit() {
     const { id } = useParams()
@@ -10,28 +9,9 @@ function CategoryEdit() {
         name: '',
         description: ''
     })
-
-    const [errorMessage, setErrorMessage] = useState('')
-    const navigate = useNavigate()
-
-    const categoryService = useMemo(() => new CategoryService({ navigate, setErrorMessage  }), [navigate])
-
-    useEffect(() => {
-        categoryService.get(id, setCategory)
-    }, [id, categoryService])
-
-    const edit = async () => {
-        categoryService.edit(category)
-    }
-
     return (
         <>
-            <GenericForm
-                data={category}
-                setData={setCategory}
-                onSave={edit}
-                errorMessage={errorMessage}
-            />
+            <CategoryForm state={category} setState={setCategory} editMode={true} />
         </>
     )
 }

@@ -67,15 +67,19 @@ export default class CategoryService {
     api.get(url).then((response) => {
         setData(response.data)
     }).catch((error) => {
-        showError(error, this.setErrorMessage)
+        return showError(error, this.setErrorMessage)
     })
   }
 }
 
 function showError(error, setErrorMessage) {
-    if (error.response && error.response.data) {
-        return setErrorMessage(error.response.data)
-    }
     console.log(error)
+    if (error.response && error.response.data) {
+        const errors = error.response.data.errors
+        if (errors) {
+            return setErrorMessage(errors[0])
+        }
+
+    }
     return setErrorMessage('Servidor indisponível.')
 }

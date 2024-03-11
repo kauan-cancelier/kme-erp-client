@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import ShowPage from '../../components/layouts/ShowPage'
-import Brand from '../../../service/BrandService'
+import BrandService from '../../../service/BrandService'
 
-function ShowBrand() {
+function BrandShow() {
     const [brand, setBrand] = useState({
         id: '',
         name: '',
@@ -12,15 +12,16 @@ function ShowBrand() {
 
     const navigate = useNavigate()
     const { id } = useParams()
+    const [errorMessage, setErrorMessage] = useState('')
 
-    const brandService = useMemo(() => new Brand({ navigate }), [navigate])
+    const service = useMemo(() => new BrandService({ navigate, setErrorMessage }), [navigate])
 
     useEffect(() => {
-        brandService.get(id, setBrand)
-    }, [id, brandService])
+        service.get(id, setBrand)
+    }, [id, service])
 
-    const deleteBrand = async () => {
-        brandService.delete(brand.id)
+    const remove = async () => {
+        service.delete(brand.id)
     }
 
     const navigateToEdit = async () => {
@@ -29,14 +30,12 @@ function ShowBrand() {
 
     return (
         <>
-            <ShowPage
-                title='Marca'
-                obj={brand}
-                deleteAction={deleteBrand}
-                editAction={navigateToEdit}
-            />
+            <ShowPage title='Marcas' obj={brand} deleteAction={remove} editAction={navigateToEdit} errorMessage={errorMessage}>
+                {brand.name && <p>Nome: {brand.name}</p>}
+                {brand.description && <p>Descrição: {brand.description}</p>}
+            </ShowPage>
         </>
     )
 }
 
-export default ShowBrand
+export default BrandShow

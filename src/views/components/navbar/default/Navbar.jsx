@@ -1,35 +1,25 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom';
-import { Menu } from 'semantic-ui-react'
+import './navbar.css'
+import NavLink from './NavLink';
+import DropdownButton from './DropdownButton';
+import Dropdown from './Dropdown';
 
 function Navbar() {
-    const navigate = useNavigate()
-
     return (
-        <Menu style={{ backgroundColor: 'black' }} secondary inverted>
-            <Menu.Item
-                name='home'
-                onClick={() => navigate('/')}
-            />
+        <div className="navbar">
+            <NavLink href={'/'} label={'Home'}></NavLink>
+            <Dropdown label={'Produtos'}>
+                <DropdownButton label={'Produtos'} href={'/products'}/>
+                <DropdownButton label={'Estoque'} href={'/stocks'}/>
+                <DropdownButton label={'Categorias'} href={'/categories'}/>
+                <DropdownButton label={'Marcas'} href={'/brands'}/>
+            </Dropdown>
 
-            <Menu.Item
-                name='Marcas'
-                onClick={() => navigate('/brands')}
-            />
-
-        <Menu.Item
-                name='Categorias'
-                onClick={() => navigate('/categories')}
-            />
-
-            <Menu.Menu position='right'>
-                <Menu.Item
-                    name='Sair'
-                    onClick={() => navigate('/login')}
-                />
-            </Menu.Menu>
-
-        </Menu>
+            <Dropdown label={'Acesso'}>
+                <DropdownButton label={'Usuários'} href={'/users'}/>
+                <DropdownButton label={'Perfis'} href={'/roles'}/>
+                <DropdownButton label={'Sair'} href={'/login'}/>
+            </Dropdown>
+        </div>
     )
 }
 

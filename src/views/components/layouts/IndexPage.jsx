@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 import CustomTable from "../../components/Table"
 import NameFilter from "../../components/Filter"
 
-function IndexEntity({service, title, newEntityPath, tableProps}) {
+function IndexEntity({service, title, newEntityPath, tableProps, errorMessage = ''}) {
     const [data, setData] = useState([])
     const navigate = useNavigate()
 
@@ -22,13 +22,13 @@ function IndexEntity({service, title, newEntityPath, tableProps}) {
 
     return (
         <>
+            {errorMessage ? errorMessage : ''}
             <h1>{title}</h1>
             <>
             <Button onClick={() => navigate(newEntityPath)} positive size="small">Cadastrar</Button>
                 <NameFilter onFilter={getFilter} />
             </>
             <CustomTable data={data} {...tableProps}/>
-
         </>
     )
 }
