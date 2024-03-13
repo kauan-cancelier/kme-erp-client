@@ -4,12 +4,15 @@ const ENDPOINT = '/brands'
 
 export default class BrandService {
   constructor({navigate, setErrorMessage = () => {}}) {
-    this.navigate = navigate;
-    this.setErrorMessage = setErrorMessage;
+    this.navigate = navigate
+    this.setErrorMessage = setErrorMessage
+    this.headers = {
+      'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+    }
   }
 
   insert(brand) {
-    api.post(ENDPOINT, {name: brand.name, description: brand.description})
+    api.post(ENDPOINT, {name: brand.name, description: brand.description}, {headers: this.headers})
         .then(response => {
           if (response.status === 201) {
             this.navigate(ENDPOINT)
@@ -19,7 +22,7 @@ export default class BrandService {
   }
 
   delete(id) {
-    api.delete(`${ENDPOINT}/${id}`)
+    api.delete(`${ENDPOINT}/${id}`, {headers: this.headers})
         .then((response) => {
           if (response) {
             this.navigate(ENDPOINT, {
@@ -34,7 +37,7 @@ export default class BrandService {
   edit(brand) {
     api.put(
            `${ENDPOINT}`,
-           {id: brand.id, name: brand.name, description: brand.description})
+           {id: brand.id, name: brand.name, description: brand.description}, {headers: this.headers})
         .then(response => {
           if (response.status === 200) {
             this.navigate('/brands', {
@@ -47,14 +50,14 @@ export default class BrandService {
   }
 
   get(id, setBrand) {
-    api.get(`${ENDPOINT}/${id}`)
+    api.get(`${ENDPOINT}/${id}`, {headers: this.headers})
         .then(response => {setBrand(response.data)})
         .catch(error => {showError(error, this.setErrorMessage)})
   }
 
   list(filterName, setData) {
     const url = filterName ? `${ENDPOINT}?name=${filterName}` : 'brands'
-    api.get(url)
+    api.get(url, {headers: this.headers})
         .then((response) => {setData(response.data)})
         .catch((error) => {showError(error, this.setErrorMessage)})
   }
@@ -63,11 +66,13 @@ export default class BrandService {
 function showError(error, setErrorMessage) {
   console.log(error)
   if (error.response && error.response.data) {
-      const errors = error.response.data.errors
-      if (errors) {
-          return setErrorMessage(errors[0])
-      }
-
+    const errors = error.response.data.errors
+    if (errors) {
+      return setErrorMessage(errors[0])
+    }
+  }
+  if (error.response.status === 403) {
+    return setErrorMessage('Acesso negado.')
   }
   return setErrorMessage('Servidor indisponível.')
 }

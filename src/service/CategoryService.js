@@ -7,12 +7,15 @@ export default class CategoryService {
     constructor({navigate, setErrorMessage = ''}) {
         this.navigate = navigate
         this.setErrorMessage = setErrorMessage
+        this.headers = {
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+        }
     }
 
     insert(category) {
         api.post(ENDPOINT, {
             name: category.name,
-            description: category.description})
+            description: category.description}, {headers: this.headers})
         .then(response => {
             if (response.status === 201) {
                 this.navigate(ENDPOINT)
@@ -24,7 +27,7 @@ export default class CategoryService {
     }
 
     delete(id) {
-        api.delete(`${ENDPOINT}/${id}`)
+        api.delete(`${ENDPOINT}/${id}`, {headers: this.headers})
         .then((response) => {
             if (response) {
                 this.navigate(ENDPOINT, {
@@ -41,7 +44,7 @@ export default class CategoryService {
         api.put(`${ENDPOINT}`, {
             id: category.id,
             name: category.name,
-            description: category.description})
+            description: category.description}, {headers: this.headers})
         .then(response => {
             if (response.status === 200) {
                 this.navigate(`${ENDPOINT}`, {
@@ -54,7 +57,7 @@ export default class CategoryService {
     }
 
     get(id, setCategory) {
-        api.get(`${ENDPOINT}/${id}`)
+        api.get(`${ENDPOINT}/${id}`, {headers: this.headers})
         .then(response => {
             setCategory(response.data)
         }).catch(error => {
@@ -64,7 +67,7 @@ export default class CategoryService {
 
   list(filterName, setData) {
     const url = filterName ? `${ENDPOINT}?name=${filterName}` : ENDPOINT
-    api.get(url).then((response) => {
+    api.get(url, {headers: this.headers}).then((response) => {
         setData(response.data)
     }).catch((error) => {
         return showError(error, this.setErrorMessage)
@@ -75,11 +78,13 @@ export default class CategoryService {
 function showError(error, setErrorMessage) {
     console.log(error)
     if (error.response && error.response.data) {
-        const errors = error.response.data.errors
-        if (errors) {
-            return setErrorMessage(errors[0])
-        }
-
+      const errors = error.response.data.errors
+      if (errors) {
+        return setErrorMessage(errors[0])
+      }
+    }
+    if (error.response.status === 403) {
+      return setErrorMessage('Acesso negado.')
     }
     return setErrorMessage('Servidor indisponível.')
-}
+  }

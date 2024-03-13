@@ -9,7 +9,6 @@ export default class UserService {
   }
 
   insert(user) {
-
     api.post(ENDPOINT, user)
         .then(response => {
           if (response.status === 201) {
@@ -64,9 +63,15 @@ export default class UserService {
 }
 
 function showError(error, setErrorMessage) {
+  console.log(error)
   if (error.response && error.response.data) {
-    console.log(error.response.data.errors[0].message)
-    return setErrorMessage(error.response.data.errors[0])
+    const errors = error.response.data.errors
+    if (errors) {
+      return setErrorMessage(errors[0])
+    }
+  }
+  if (error.response.status === 403) {
+    return setErrorMessage('Acesso negado.')
   }
   return setErrorMessage('Servidor indisponível.')
 }

@@ -1,5 +1,5 @@
 import api from "./Api"
-const ENDPOINT = '/login'
+const ENDPOINT = '/auth'
 
 export default class LoginService {
 
@@ -15,24 +15,29 @@ export default class LoginService {
         })
         .then(response => {
             if (response.status === 200) {
-                this.navigate('/')
+                console.log(response)
+                sessionStorage.setItem("token", response.data.token)
+                this.navigate('/home')
             }
         })
         .catch(error => {
-            showError(error, this.setErrorMessage)
-        })
+            showError(error, this.setErrorMessage);
+        });
     }
+
 
 }
 
 function showError(error, setErrorMessage) {
     console.log(error)
     if (error.response && error.response.data) {
-        const errors = error.response.data.errors
-        if (errors) {
-            return setErrorMessage(errors[0])
-        }
-
+      const errors = error.response.data.errors
+      if (errors) {
+        return setErrorMessage(errors[0].message)
+      }
+    }
+    if (error.response.status === 403) {
+      return setErrorMessage('Email e/ou senha inválidos.')
     }
     return setErrorMessage('Servidor indisponível.')
 }
