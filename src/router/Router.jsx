@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Login from "../views/pages/login/Login"
 import Layout from "../views/components/layouts/LayoutRouter"
-import LayoutBeforeLogin from "../views/components/layouts/LayoutBeforeLogin"
 
 import Home from "../views/pages/home/Home"
 import HomeBrand from "../views/pages/brands/Index"
@@ -17,6 +16,8 @@ import HomeUser from "../views/pages/users/Index"
 import ShowUser from "../views/pages/users/Show"
 import EditUser from "../views/pages/users/Edit"
 import PageNotFound from "../views/pages/errors/PageNotFound"
+import AccessDenied from "../views/pages/errors/AccessDenied"
+import loggedIn from "./Logged"
 
 
 function ContentRouter() {
@@ -24,18 +25,16 @@ function ContentRouter() {
     const CATEGORY_ENDPOINT = "/categories"
     const USER_ENDPOINT = "/users"
 
-
     return (
-        <BrowserRouter>
+        <BrowserRouter >
             <Routes>
 
-                <Route path="/" element={<Home />} />
-                <Route element={<LayoutBeforeLogin />}>
-                    <Route path="/login" element={<Login />} />
-                    <Route path={`${USER_ENDPOINT}/new`} element={<NewUser />} />
-                </Route>
+                <Route path="/login" element={<Login />} />
+                <Route path="/" element={loggedIn() ? <Home /> : <Login />} />
+                <Route path="/home" element={loggedIn() ? <Home /> : <Login />} />
 
-                <Route element={<Layout />}>
+
+                <Route element={loggedIn() ?<Layout /> : <AccessDenied/>}>
                     {/* Brands */}
                     <Route path={`${BRAND_ENPOINT}`} element={<HomeBrand />} />
                     <Route path={`${BRAND_ENPOINT}/new`} element={<NewBrand />} />
@@ -51,10 +50,12 @@ function ContentRouter() {
                     {/* User */}
                     <Route path={`${USER_ENDPOINT}`} element={<HomeUser />} />
                     <Route path={`${USER_ENDPOINT}/:id`} element={<ShowUser />} />
+                    <Route path={`${USER_ENDPOINT}/new`} element={<NewUser />} />
                     <Route path={`${USER_ENDPOINT}/edit/:id`} element={<EditUser />} />
                 </Route>
                 <Route>
                     <Route path={`/page_not_found`} element={<PageNotFound/>}/>
+                    <Route path={`/access_denied`} element={<AccessDenied/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>
