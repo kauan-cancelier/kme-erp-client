@@ -30,7 +30,9 @@ function GenericForm({ data, setData, onClick, errorMessage='', title, buttonLab
             {title ? <h1>Cadastro de {title}</h1> : ''}
             <Form>
                 {formFields}
-                <Button label={buttonLabel} onClick={onClick} />
+                    <Button onClick={onClick}>
+                        {buttonLabel}
+                    </Button>
             </Form>
         </>
     )
