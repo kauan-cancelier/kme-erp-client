@@ -3,8 +3,7 @@ const ENDPOINT = '/auth'
 
 export default class LoginService {
 
-    constructor({navigate, setErrorMessage = ''}) {
-        this.navigate = navigate
+    constructor({setErrorMessage = ''}) {
         this.setErrorMessage = setErrorMessage
     }
 
@@ -17,7 +16,6 @@ export default class LoginService {
             if (response.status === 200) {
                 console.log(response)
                 sessionStorage.setItem("token", response.data.token)
-                this.navigate('/home')
             }
         })
         .catch(error => {

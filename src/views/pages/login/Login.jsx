@@ -25,7 +25,8 @@ function Login() {
 
     const login = async () => {
         if (credentials.email && credentials.password) {
-            return loginService.login(credentials)
+            loginService.login(credentials)
+            navigate('/redirect')
         }
         return setErrorMessage("Todos os campos são obrigatórios. ")
     }

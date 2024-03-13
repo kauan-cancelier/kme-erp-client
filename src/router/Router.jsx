@@ -18,20 +18,26 @@ import EditUser from "../views/pages/users/Edit"
 import PageNotFound from "../views/pages/errors/PageNotFound"
 import AccessDenied from "../views/pages/errors/AccessDenied"
 import loggedIn from "./Logged"
+import RolesIndex from "../views/pages/roles/Index"
+import Redirect from "../views/pages/login/Redirect"
 
 
 function ContentRouter() {
     const BRAND_ENPOINT = "/brands"
     const CATEGORY_ENDPOINT = "/categories"
     const USER_ENDPOINT = "/users"
+    const ROLE_ENDPOINT = "/roles"
+
 
     return (
         <BrowserRouter >
             <Routes>
 
                 <Route path="/login" element={<Login />} />
-                <Route path="/" element={loggedIn() ? <Home /> : <Login />} />
-                <Route path="/home" element={loggedIn() ? <Home /> : <Login />} />
+                <Route path="/" element={loggedIn ? <Home /> : <Login />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/redirect" element={<Redirect />} /> {/* TODO arrumar essa gambs */}
+
 
 
                 <Route element={loggedIn() ?<Layout /> : <AccessDenied/>}>
@@ -52,6 +58,10 @@ function ContentRouter() {
                     <Route path={`${USER_ENDPOINT}/:id`} element={<ShowUser />} />
                     <Route path={`${USER_ENDPOINT}/new`} element={<NewUser />} />
                     <Route path={`${USER_ENDPOINT}/edit/:id`} element={<EditUser />} />
+
+                    {/* Roles */}
+                    <Route path={`${ROLE_ENDPOINT}`} element={<RolesIndex />} />
+
                 </Route>
                 <Route>
                     <Route path={`/page_not_found`} element={<PageNotFound/>}/>
