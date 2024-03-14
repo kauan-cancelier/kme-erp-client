@@ -20,6 +20,9 @@ import AccessDenied from "../views/pages/errors/AccessDenied"
 import loggedIn from "./Logged"
 import RolesIndex from "../views/pages/roles/Index"
 import Redirect from "../views/pages/login/Redirect"
+import RoleShow from "../views/pages/roles/Show"
+import RoleNew from "../views/pages/roles/New"
+import RoleEdit from "../views/pages/roles/Edit"
 
 
 function ContentRouter() {
@@ -61,6 +64,9 @@ function ContentRouter() {
 
                     {/* Roles */}
                     <Route path={`${ROLE_ENDPOINT}`} element={<RolesIndex />} />
+                    <Route path={`${ROLE_ENDPOINT}/:id`} element={<RoleShow />} />
+                    <Route path={`${ROLE_ENDPOINT}/new`} element={<RoleNew />} />
+                    <Route path={`${ROLE_ENDPOINT}/edit/:id`} element={<RoleEdit />} />
 
                 </Route>
                 <Route>
