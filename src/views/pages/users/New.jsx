@@ -10,6 +10,9 @@ function NewUser() {
         password: '',
         confirmPassword: '',
         jobTitle: '',
+        role: {
+            id: ''
+        }
     })
 
     return (

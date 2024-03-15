@@ -1,39 +1,38 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import UserService from '../../../service/UserService'
-import FormEntity from '../../components/layouts/FormEntity'
+import UserEditForm from '../../components/form/user/UserEditForm'
 
 function EditUser() {
 
     const { id } = useParams()
 
     const [user, setUser] = useState({
-        id: '',
+        id,
         name: '',
         email: '',
         cpf: '',
         phone_number: '',
         password: '',
         confirm_password: '',
-        job_title: ''
+        job_title: '',
+        role: {
+            id: '',
+            name: ''
+        }
     })
 
     const navigate = useNavigate()
-    const [errorMessage, setErrorMessage] = useState('')
-    const userService = useMemo(() => new UserService({ navigate, setErrorMessage }), [navigate])
+    const userService = useMemo(() => new UserService({ navigate }), [navigate])
 
     useEffect(() => {
         userService.get(id, setUser)
     }, [id, setUser, userService])
 
     return (
-        <FormEntity
-            title='Usuário'
-            service={userService}
+        <UserEditForm
             state={user}
             setState={setUser}
-            editMode={true}
-            errorMessage={errorMessage}
         />
     )
 }

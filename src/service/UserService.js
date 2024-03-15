@@ -4,18 +4,18 @@ const ENDPOINT = '/users'
 
 export default class UserService {
   constructor({navigate, setErrorMessage = () => {}}) {
-    this.navigate = navigate;
-    this.setErrorMessage = setErrorMessage;
+    this.navigate = navigate
+    this.setErrorMessage = setErrorMessage
   }
 
   insert(user) {
     api.post(ENDPOINT, user)
         .then(response => {
           if (response.status === 201) {
-            this.navigate('/');
+            this.navigate('/')
           }
         })
-        .catch(error => showError(error, this.setErrorMessage));
+        .catch(error => showError(error, this.setErrorMessage))
   }
 
   delete(id) {
@@ -31,12 +31,7 @@ export default class UserService {
         .catch(error => {showError(error, this.setErrorMessage)})
   }
 
-  edit(userFormData) {
-    const user = Object.keys(userFormData).reduce((acc, key) => {
-      acc[key] = userFormData[key].value;
-      return acc;
-    }, {});
-
+  edit(user) {
     api.put(ENDPOINT, user)
         .then(response => {
           if (response.status === 200) {

@@ -1,20 +1,34 @@
-import { Form } from "semantic-ui-react"
-import SaveButton from "../helpers/SaveButton"
-import { useMemo, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import ErrorMessage from "../helpers/ErrorMessage"
-import Input from "../helpers/Input"
-import UserService from "../../../../service/UserService"
+import React, { useState, useEffect, useMemo } from 'react'
+import { Form, FormField, Radio } from 'semantic-ui-react'
+import SaveButton from '../helpers/SaveButton'
+import ErrorMessage from '../helpers/ErrorMessage'
+import UserService from '../../../../service/UserService'
+import RoleService from '../../../../service/RoleService'
+import { useNavigate } from 'react-router-dom'
+import Input from '../helpers/Input'
 
 function UserNewForm({ state, setState }) {
-
     const navigate = useNavigate()
     const [errorMessage, setErrorMessage] = useState('')
-    const service = useMemo(() => new UserService({ navigate, setErrorMessage }), [navigate, setErrorMessage]);
+    const [selectedRole, setSelectedRole] = useState('')
+    const [roles, setRoles] = useState([])
+
+    const userService = useMemo(() => new UserService({ navigate, setErrorMessage }), [navigate, setErrorMessage])
+    const roleService = useMemo(() => new RoleService({ navigate, setErrorMessage }), [navigate, setErrorMessage])
+
+    useEffect(() => {
+        const fetchRoles = async () => {
+            roleService.list("", setRoles)
+        }
+        fetchRoles()
+    }, [roleService])
+
+    const handleChange = (e, { value }) => setSelectedRole(value)
 
     const save = async () => {
-        console.log(state)
-        service.insert(state)
+        const updatedState = { ...state, role: {id: selectedRole} }
+        console.log(updatedState)
+        userService.insert(updatedState)
     }
 
     return (
@@ -71,7 +85,20 @@ function UserNewForm({ state, setState }) {
                 field='jobTitle'
                 label='Cargo'
             />
-
+            <h3>Perfil</h3>
+            <p>Selecione um perfil</p>
+            {roles.map(role => (
+                <FormField>
+                    <Radio
+                        key={role.id}
+                        label={role.name}
+                        name='roleGroup'
+                        value={role.id}
+                        checked={selectedRole === role.id}
+                        onChange={handleChange}
+                    />
+                </FormField>
+            ))}
             <SaveButton onClick={save} />
         </Form>
     )

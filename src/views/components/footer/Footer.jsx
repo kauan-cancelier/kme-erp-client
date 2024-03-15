@@ -4,15 +4,15 @@ import './footer.css'
 function Footer() {
     return (
         <footer>
-            <div class="footer">
-                <div class="row">
+            <div className="footer">
+                <div className="row">
                 </div>
-                <div class="row">
+                <div className="row">
                     <ul>
                         <Link href='contact' label='Contate-nos'></Link>
                     </ul>
                 </div>
-                <div class="row">
+                <div className="row">
                     KME Copyright © 2024 Kme Solutions - All rights reserved
                 </div>
             </div>

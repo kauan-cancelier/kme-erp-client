@@ -73,8 +73,8 @@ function showError(error, setErrorMessage) {
       return setErrorMessage(errors[0].message || errors[0])
     }
   }
-  if (error.response.status === 403) {
-    return setErrorMessage('Acesso negado.')
-  }
+  // if (error.response.status === 403) {
+  //   return setErrorMessage('Acesso negado.')
+  // }
   return setErrorMessage('Servidor indisponível.')
 }

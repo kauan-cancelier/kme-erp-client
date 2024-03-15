@@ -7,7 +7,7 @@ function CustomTable({ headers = [], data = [], link }) {
         return (
             <TableHeader>
                 <TableRow>
-                    {headers.map((header, idx) => ( // Correção aqui
+                    {headers.map((header, idx) => (
                         <TableHeaderCell key={idx}>
                             {header}
                         </TableHeaderCell>
