@@ -7,21 +7,26 @@ export default class LoginService {
         this.setErrorMessage = setErrorMessage
     }
 
-    login(credentials) {
-        api.post(`${ENDPOINT}`, {
-            email: credentials.email,
-            password: credentials.password,
-        })
-        .then(response => {
+    async login(credentials) {
+        try {
+            const response = await api.post(`${ENDPOINT}`, {
+                email: credentials.email,
+                password: credentials.password,
+            });
+
             if (response.status === 200) {
-                console.log(response)
-                sessionStorage.setItem("token", response.data.token)
+                console.log('200');
+
+                const token = response.data.token;
+                sessionStorage.setItem('token', token)
+
+                return token;
             }
-        })
-        .catch(error => {
+        } catch (error) {
             showError(error, this.setErrorMessage);
-        });
+        }
     }
+
 
 
 }

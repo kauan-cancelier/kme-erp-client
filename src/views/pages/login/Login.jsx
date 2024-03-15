@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import LoginService from '../../../service/LoginService'
-import LoginNavbar from '../../components/navbar/login/LoginNavbar'
 import CustomContainer from '../../components/layouts/Container'
 import Input from '../../components/form/helpers/Input'
 import { Form, FormButton } from 'semantic-ui-react'
@@ -25,15 +24,20 @@ function Login() {
 
     const login = async () => {
         if (credentials.email && credentials.password) {
-            loginService.login(credentials)
-            navigate('/redirect')
+            try {
+                const token = await loginService.login(credentials);
+                if(token) {
+                    console.log('oi token:' + token)
+                    navigate('/')
+                }
+            } catch (error) {
+                setErrorMessage('Erro ao fazer login:', error);
+            }
         }
-        return setErrorMessage("Todos os campos são obrigatórios. ")
     }
 
     return (
         <>
-            <LoginNavbar />
             <CustomContainer>
                 {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
                 <h1>Login</h1>
